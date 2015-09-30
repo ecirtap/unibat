@@ -17,7 +17,6 @@ Vagrant.configure("2") do |config|
       puppet.manifest_file  = 'init.pp'
     end
     box.vm.provision "docker" do |d|
-      d.build_image "/vagrant/unitex", args: "-t unitex"
     end
   end
 end
