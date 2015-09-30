@@ -1,0 +1,4 @@
+.DS_Store
+.vagrant
+tmp
+unitex/build/builddir
