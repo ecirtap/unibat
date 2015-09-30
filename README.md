@@ -15,6 +15,6 @@ Un environnement Vagrant pour le packaging / test docker d'Unitex
     vagrant@unitex% cd /vagrant/unitex/build
     vagrant@unitex% ./build.sh
     vagrant@unitex% # Placer dans /corpus/in un ensemble de ressources à traiter
-    vagrant@unitex% docker run -i -t -v /corpus:/corpus unitex
+    vagrant@unitex% docker run -v /corpus:/corpus unitex
     
     
