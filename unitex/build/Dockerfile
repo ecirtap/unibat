@@ -10,4 +10,8 @@ RUN apt-get -qqy update && apt-get install openjdk-7-jre -qqy
 
 RUN mkdir /soft
 
-ADD build/builddir /soft
+ADD builddir /soft
+
+WORKDIR /soft
+
+ENTRYPOINT ["/soft/unitex.sh"]

@@ -67,3 +67,5 @@ cp -r $demodir/fr $builddir
 cp $demodir/*.java $builddir # Juste pour info
 cp $demodir/*.class $builddir
 cp $lngfpkg $builddir
+
+docker build -t unitex --rm=true .
