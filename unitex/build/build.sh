@@ -7,9 +7,9 @@ function die() {
   exit 1
 }
 
-unitexdir="../tmp/4056"
-demodir="../tmp/rundemo"
-lngfpkg="../tmp/rundemo/PackageCassysFR.lingpkg"
+unitexdir="../../tmp/4056"
+demodir="../../tmp/rundemo"
+lngfpkg="../../tmp/rundemo/PackageCassysFR.lingpkg"
 
 while getopts 'u:d:f:' flag; do
   case "${flag}" in

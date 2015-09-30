@@ -2,8 +2,6 @@
 
 set -u
 
-./startLibraryAndJniDemo.sh ./PackageCassysFR.lingpkg script/standard.uniscript ./Corpus ./Result $1
-
 lng="FR"
 
 while getopts 'l:' flag; do
@@ -21,7 +19,7 @@ esac
 
 script='script/standard.uniscript'
 indir='/corpus/in'
-outdir='corpus/out'
+outdir='/corpus/out'
 ncores=''
 
 java -Djava.library.path=. UnitexPackageBatch $lngpkg $script $indir $outdir $ncores

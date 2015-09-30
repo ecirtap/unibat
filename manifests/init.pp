@@ -54,6 +54,6 @@ node 'unitex.fqdn.org' {
   }
 
   file { '/corpus': ensure => directory }
-  file { '/corpus/in': ensure => directory, require => File['/corpus'] }
-  file { '/corpus/out': ensure => directory, require => File['/corpus'] }
+  file { '/corpus/in': ensure => directory, require => File['/corpus'], mode => '0777' }
+  file { '/corpus/out': ensure => directory, require => File['/corpus'], mode => '0777' }
 }

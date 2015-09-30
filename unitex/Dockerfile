@@ -10,6 +10,4 @@ RUN apt-get -qqy update && apt-get install openjdk-7-jre -qqy
 
 RUN mkdir /soft
 
-ADD rundemo /soft
-ADD 4056/libUnitexJni.so /soft/
-RUN chmod a+x /soft/*.sh
+ADD build/builddir /soft
