@@ -7,15 +7,15 @@ function die() {
   exit 1
 }
 
-unitexdir="../../tmp/4056"
-demodir="../../tmp/rundemo"
-lngfpkg="../../tmp/rundemo/PackageCassysFR.lingpkg"
+unitexdir="../../tmp/4068"
+lngfpkg="../../tmp/lingpkg/PackageCassysFR.lingpkg"
+lngepkg="../../tmp/lingpkg/PackageCassysEN.lingpkg"
 
-while getopts 'u:d:f:' flag; do
+while getopts 'u:d:f:e:' flag; do
   case "${flag}" in
     u) unitexdir="${OPTARG}" ;;
-    d) demodir="${OPTARG}" ;;
     f) lngfpkg="${OPTARG}" ;;
+    e) lngepkg="${OPTARG}" ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
@@ -25,12 +25,12 @@ if [ "${unitexdir}" = "" ]; then
   exit 1
 fi
 
-if [ "${demodir}" = "" ]; then
-  die "Le repertoire du la demo unitex (option -d) est obligatoire."
-fi
-
 if [ "${lngfpkg}" = "" ]; then
   die "Le package linguistique pour le français (option -f) est obligatoire."
+fi
+
+if [ "${lngepkg}" = "" ]; then
+  die "Le package linguistique pour l'anglais (option -e) est obligatoire."
 fi
 
 if [ ! -f "${unitexdir}/mkUnitexLib.sh" ] ; then
@@ -42,16 +42,12 @@ if [ ! -f "${unitexdir}/libUnitexJni.so" ] ; then
   exit 1
 fi
 
-if [ ! -f "${demodir}/rundemo.sh" ] ; then
-  die "Le repertoire de la demo unitex n'est pas valide."
-fi
-
-if [ ! -f "${demodir}/UnitexPackageBatch.class" ] ; then
-  die "La demo Unitex n'est pas construite."
-fi
-
 if [ ! -f "${lngfpkg}" ] ; then
   die "Le package linguistique pour le français fourni en paramètre n'est pas valide."
+fi
+
+if [ ! -f "${lngepkg}" ] ; then
+  die "Le package linguistique pour l'anglais fourni en paramètre n'est pas valide."
 fi
 
 builddir=$(dirname $0)/builddir
@@ -61,11 +57,10 @@ builddir=$(dirname $0)/builddir
 rm -rf $builddir/*
 
 cp $unitexdir/libUnitexJni.so $builddir
+cp $unitexdir/RunUnitexDynLib $builddir
 cp unitex.sh $builddir
 chmod u+x $builddir/unitex.sh
-cp -r $demodir/fr $builddir
-cp $demodir/*.java $builddir # Juste pour info
-cp $demodir/*.class $builddir
 cp $lngfpkg $builddir
+cp $lngepkg $builddir
 
 docker build -t unitex --rm=true .

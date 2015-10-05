@@ -48,7 +48,7 @@ node 'unitex.fqdn.org' {
 
   # Installation des paquets nécessaires sur le host Docker pour recompiler unitex
   # NB: c'est Vagrant qui installe Docker (cf provisionning dans Vagrantfile)
-  package { ['g++','subversion','p7zip-full','openjdk-7-jdk','valgrind','make']: 
+  package { ['g++','subversion','p7zip-full','valgrind','openjdk-7-jdk','make']: 
     ensure => present, 
     require => Exec['set-timezone']
   }
