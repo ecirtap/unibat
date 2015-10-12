@@ -14,4 +14,4 @@ ADD builddir /soft
 
 WORKDIR /soft
 
-ENTRYPOINT ["/soft/unitex.sh"]
+#ENTRYPOINT ["/soft/unitex.sh"]

@@ -20,6 +20,8 @@ case "${lng}" in
            script='script/french_tei.uniscript' ;;
   EN|en|e) lngpkg='./PackageCassysEN.lingpkg'
            script='script/english_tei.uniscript' ;;
+  IT|it|i) lngpkg='./PackageCassysFR_OK.lingpkg'
+           script='script/standard.uniscript' ;;
   *) echo "langue inconnue ${lng}"; exit 1 ;;
 esac
 
@@ -27,7 +29,8 @@ indir='/corpus/in'
 outdir='/corpus/out'
 
 cd /soft
+ls -l
 
 export LD_LIBRARY_PATH=.
- 
+set -x
 ./RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p -m -s $script }

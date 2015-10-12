@@ -58,9 +58,12 @@ rm -rf $builddir/*
 
 cp $unitexdir/libUnitexJni.so $builddir
 cp $unitexdir/RunUnitexDynLib $builddir
+cp $unitexdir/showversion.sh $builddir
 cp unitex.sh $builddir
 chmod u+x $builddir/unitex.sh
+chmod u+x $builddir/showversion.sh
 cp $lngfpkg $builddir
 cp $lngepkg $builddir
+cp /vagrant/tmp/rundemo/PackageCassysFR.lingpkg $builddir/PackageCassysFR_OK.lingpkg
 
 docker build -t unitex --rm=true .
