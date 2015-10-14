@@ -7,15 +7,13 @@ function die() {
   exit 1
 }
 
-unitexdir="../../tmp/4068"
-lngfpkg="../../tmp/lingpkg/PackageCassysFR.lingpkg"
-lngepkg="../../tmp/lingpkg/PackageCassysEN.lingpkg"
+unitexdir="../../tmp/4086"
+lngpkg="../../tmp/lingpkg/PackageCassys.lingpkg"
 
-while getopts 'u:d:f:e:' flag; do
+while getopts 'u:l:' flag; do
   case "${flag}" in
     u) unitexdir="${OPTARG}" ;;
-    f) lngfpkg="${OPTARG}" ;;
-    e) lngepkg="${OPTARG}" ;;
+    l) lngpkg="${OPTARG}" ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
@@ -25,12 +23,8 @@ if [ "${unitexdir}" = "" ]; then
   exit 1
 fi
 
-if [ "${lngfpkg}" = "" ]; then
-  die "Le package linguistique pour le français (option -f) est obligatoire."
-fi
-
-if [ "${lngepkg}" = "" ]; then
-  die "Le package linguistique pour l'anglais (option -e) est obligatoire."
+if [ "${lngpkg}" = "" ]; then
+  die "Le package linguistique (option -l) est obligatoire."
 fi
 
 if [ ! -f "${unitexdir}/mkUnitexLib.sh" ] ; then
@@ -42,13 +36,17 @@ if [ ! -f "${unitexdir}/libUnitexJni.so" ] ; then
   exit 1
 fi
 
-if [ ! -f "${lngfpkg}" ] ; then
-  die "Le package linguistique pour le français fourni en paramètre n'est pas valide."
+if [ ! -f "${lngpkg}" ] ; then
+  die "Le package linguistique fourni en paramètre n'est pas valide."
 fi
 
-if [ ! -f "${lngepkg}" ] ; then
-  die "Le package linguistique pour l'anglais fourni en paramètre n'est pas valide."
-fi
+echo "------------------------------"
+echo "Construction de l'image Docker"
+echo "------------------------------"
+echo "unitexdir=${unitexdir}"
+echo "lngpkg=${lngpkg}"
+echo "------------------------------"
+echo ""
 
 builddir=$(dirname $0)/builddir
 
@@ -62,8 +60,6 @@ cp $unitexdir/showversion.sh $builddir
 cp unitex.sh $builddir
 chmod u+x $builddir/unitex.sh
 chmod u+x $builddir/showversion.sh
-cp $lngfpkg $builddir
-cp $lngepkg $builddir
-cp /vagrant/tmp/rundemo/PackageCassysFR.lingpkg $builddir/PackageCassysFR_OK.lingpkg
+cp $lngpkg $builddir
 
 docker build -t unitex --rm=true .

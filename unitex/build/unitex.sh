@@ -2,35 +2,52 @@
 
 set -u
 
-lng="FR"
-nthread='2'
+lng=''
+nthread=2
+fmt=''
+indir=''
+optm='-m'
+outdir=''
 
-while getopts 'l:t:' flag; do
+while getopts 'l:t:f:i:o:vVd' flag; do
   case "${flag}" in
     l) lng="${OPTARG}" ;;
+    f) fmt="${OPTARG}" ;;
     t) nthread="${OPTARG}" ;;
+    i) indir="${OPTARG}" ;;
+    o) outdir="${OPTARG}" ;;
+    d) optm='' ;;
+    V) $(dirname $0)/showversion.sh; ;;
+    v) $(dirname $0)/showversion.sh; exit $? ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
 
-script='script/standard.uniscript'
+lngpkg='./PackageCassys.lingpkg'
 
 case "${lng}" in
-  FR|fr|f) lngpkg='./PackageCassysFR.lingpkg'
-           script='script/french_tei.uniscript' ;;
-  EN|en|e) lngpkg='./PackageCassysEN.lingpkg'
-           script='script/english_tei.uniscript' ;;
-  IT|it|i) lngpkg='./PackageCassysFR_OK.lingpkg'
-           script='script/standard.uniscript' ;;
+  FR|fr|fra|f) lng='fra';;
+  EN|en|eng|e) lng='eng';;
   *) echo "langue inconnue ${lng}"; exit 1 ;;
 esac
 
-indir='/corpus/in'
-outdir='/corpus/out'
+case "${fmt}" in
+  tei|xml) ;; 
+  *) echo "format inconnu ${fmt}"; exit 1 ;;
+esac
+
+if [ ! -d $indir ] ; then
+  echo "Repertoire d'entree inexistant: $indir"
+fi
+
+if [ ! -d $outdir ] ; then
+  echo "Repertoire de sortie inexistant: $outdir"
+fi
 
 cd /soft
-ls -l
+
+script="script/${lng}_${fmt}.uniscript"
 
 export LD_LIBRARY_PATH=.
 set -x
-./RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p -m -s $script }
+./RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p $optm -s $script }
