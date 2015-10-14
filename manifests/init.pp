@@ -53,7 +53,15 @@ node 'unitex.fqdn.org' {
     require => Exec['set-timezone']
   }
 
-  file { '/corpus': ensure => directory }
-  file { '/corpus/in': ensure => directory, require => File['/corpus'], mode => '0777' }
-  file { '/corpus/out': ensure => directory, require => File['/corpus'], mode => '0777' }
+  $c='/home/vagrant/corpus'
+  File { owner => 'vagrant', group => 'vagrant', mode => '0777' }
+  file { "${c}": ensure => directory }
+  file { "${c}/in": ensure => directory, require => File[$c] }
+  file { "${c}/out": ensure => directory, require => File[$c] }
+  file { "${c}/out/fr": ensure => directory, require => File["${c}/out"] }
+  file { "${c}/out/fr/tei": ensure => directory, require => File["${c}/out/fr"] }
+  file { "${c}/out/fr/xml": ensure => directory, require => File["${c}/out/fr"] }
+  file { "${c}/out/en": ensure => directory, require => File["${c}/out"] }
+  file { "${c}/out/en/tei": ensure => directory, require => File["${c}/out/en"] }
+  file { "${c}/out/en/xml": ensure => directory, require => File["${c}/out/en"] }
 }
