@@ -9,7 +9,11 @@ indir=''
 optm='-m'
 outdir=''
 
-while getopts 'l:t:f:i:o:vVd' flag; do
+cmdpath=$(dirname $0)
+
+export PATH=$cmdpath:$PATH
+
+while getopts 'l:t:f:i:o:vd' flag; do
   case "${flag}" in
     l) lng="${OPTARG}" ;;
     f) fmt="${OPTARG}" ;;
@@ -17,8 +21,7 @@ while getopts 'l:t:f:i:o:vVd' flag; do
     i) indir="${OPTARG}" ;;
     o) outdir="${OPTARG}" ;;
     d) optm='' ;;
-    V) $(dirname $0)/showversion.sh; ;;
-    v) $(dirname $0)/showversion.sh; exit $? ;;
+    v) showversion.sh; exit $? ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
@@ -44,10 +47,17 @@ if [ ! -d $outdir ] ; then
   echo "Repertoire de sortie inexistant: $outdir"
 fi
 
-cd /soft
+cd $cmdpath
 
 script="script/${lng}_${fmt}.uniscript"
 
-export LD_LIBRARY_PATH=.
-set -x
-./RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p $optm -s $script }
+export LD_LIBRARY_PATH=$cmdpath
+CMD="RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p $optm -s $script }"
+
+echo "=================================="
+echo "Commande: $CMD"
+showversion.sh
+echo "Version du package linguistique: " $(cat $cmdpath/lng_version)
+echo "Date d'execution: " $(date)
+echo "=================================="
+$CMD

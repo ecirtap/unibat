@@ -40,6 +40,8 @@ if [ ! -f "${lngpkg}" ] ; then
   die "Le package linguistique fourni en paramètre n'est pas valide."
 fi
 
+LNG_VERSION=$(zipinfo -1 $lngpkg |grep resource/VERSION|sed -e s';resource/VERSION_;;')
+
 echo "------------------------------"
 echo "Construction de l'image Docker"
 echo "------------------------------"
@@ -61,5 +63,6 @@ cp unitex.sh $builddir
 chmod u+x $builddir/unitex.sh
 chmod u+x $builddir/showversion.sh
 cp $lngpkg $builddir
+echo $LNG_VERSION > "$builddir/lng_version"
 
 docker build -t unitex --rm=true .
