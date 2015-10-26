@@ -60,4 +60,4 @@ showversion.sh
 echo "Version du package linguistique: " $(cat $cmdpath/lng_version)
 echo "Date d'execution: " $(date)
 echo "=================================="
-$CMD
+time $CMD
