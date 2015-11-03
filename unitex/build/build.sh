@@ -7,8 +7,8 @@ function die() {
   exit 1
 }
 
-unitexdir="../../tmp/4113"
-lngpkg="../../tmp/lingpkg/PackageCassys.lingpkg"
+unitexdir=""
+lngpkg=""
 
 while getopts 'u:l:' flag; do
   case "${flag}" in
