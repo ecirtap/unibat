@@ -12,4 +12,7 @@ ADD builddir /soft
 
 WORKDIR /soft
 
+VOLUME /soft
+VOLUME /corpus
+
 ENTRYPOINT ["/soft/unitex.sh"]
