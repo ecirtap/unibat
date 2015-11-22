@@ -8,7 +8,7 @@ function die() {
 
 ubuntu_version=''
 unitex_revision=''
-rebuild_unitex_zip='/vagrant/tmp/script_rebuild_unitex.zip'
+rebuild_unitex_zip=''
 
 cmdpath=$(dirname $0)
 
