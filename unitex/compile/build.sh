@@ -29,6 +29,10 @@ if [ "$unitex_revision" = "" ] ; then
   die "Version d'unitex non specifiee"
 fi
 
+if [ "$rebuild_unitex_zip" = "" ] ; then
+  die "Le zip nécessaire à la compilation d'unitex n'est pas specifie"
+fi
+
 if [ ! -f "$rebuild_unitex_zip" ] ; then
   die "Scripts pour compiler unitex introuvables: ${rebuild_unitex_zip}"
 fi
