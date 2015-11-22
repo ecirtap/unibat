@@ -1,0 +1,8 @@
+#!/usr/bin/expect -f
+
+spawn svn info https://gforgeigm.univ-mlv.fr/svn/unitex/Unitex-C++ --username anonsvn --password anonsvn
+expect "(R)eject, accept (t)emporarily or accept (p)ermanently? "
+send -- "p\r"
+expect "Store password unencrypted (yes/no)? "
+send "yes\r"
+expect -re "root@.*:\/soft#"

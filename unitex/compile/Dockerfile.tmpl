@@ -1,0 +1,25 @@
+FROM ubuntu:@UBUNTU_VERSION@
+MAINTAINER John DOE "nospam@noway.nowhere"
+
+ENV REFRESHED_AT 2015-02-12
+
+RUN dpkg-divert --local --rename --add /sbin/initctl
+RUN ln -sf /bin/true /sbin/initctl
+
+RUN apt-get -qqy update && apt-get install openjdk-7-jre g++ subversion p7zip-full openjdk-7-jdk valgrind make expect unzip -qqy
+
+# Set locale to UTF8 
+RUN locale-gen --no-purge fr_FR.UTF-8 
+RUN update-locale LANG=fr_FR.UTF-8 
+RUN dpkg-reconfigure locales 
+ENV LANGUAGE fr_FR.UTF-8 
+ENV LANG fr_FR.UTF-8 
+ENV LC_ALL fr_FR.UTF-8
+
+RUN mkdir /soft
+
+ADD builddir /soft
+
+WORKDIR /soft
+
+#ENTRYPOINT ["/soft/compile.sh"]

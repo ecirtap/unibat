@@ -2,38 +2,32 @@
 
 set -u
 
-function die() {
-  echo $1
-  exit 1
+function die() { 
+  echo $1; exit 1 
 }
 
-unitexdir=""
 lngpkg=""
+docker_compiled_image=""
 
-while getopts 'u:l:' flag; do
+while getopts 'i:l:' flag; do
   case "${flag}" in
-    u) unitexdir="${OPTARG}" ;;
+    i) docker_compiled_image="${OPTARG}" ;;
     l) lngpkg="${OPTARG}" ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
 
-if [ "${unitexdir}" = "" ]; then
-  echo "Le repertoire du build unitex (option -u) est obligatoire."
-  exit 1
+if [ "${docker_compiled_image}" = "" ]; then
+  die "L'image docker qui a servi à construire Unitex (option -i) est obligatoire."
+fi
+
+iid=$(docker images -q $docker_compiled_image)
+if [ "$iid" = "" ] ; then
+  die "L'image ${docker_compiled_image} n'existe pas."
 fi
 
 if [ "${lngpkg}" = "" ]; then
   die "Le package linguistique (option -l) est obligatoire."
-fi
-
-if [ ! -f "${unitexdir}/mkUnitexLib.sh" ] ; then
-  die "Le repertoire du build unitex n'est pas valide."
-fi
-
-if [ ! -f "${unitexdir}/libUnitexJni.so" ] ; then
-  die "La librairie Unitex n'est pas construite."
-  exit 1
 fi
 
 if [ ! -f "${lngpkg}" ] ; then
@@ -41,12 +35,22 @@ if [ ! -f "${lngpkg}" ] ; then
 fi
 
 LNG_VERSION=$(zipinfo -1 $lngpkg |grep resource/VERSION|sed -e s';resource/VERSION_;;')
+# TODO: test de validite sur le LNG_VERSION
+
+docker_runnable_image=$(echo "${docker_compiled_image}_${LNG_VERSION}"|sed -e 's/compiled/runnable/')
+
+iid=$(docker images -q $docker_runnable_image)
+if [ "$iid" != "" ] ; then
+  die "L'image ${docker_runnable_image} existe deja"
+fi
 
 echo "------------------------------"
 echo "Construction de l'image Docker"
 echo "------------------------------"
-echo "unitexdir=${unitexdir}"
-echo "lngpkg=${lngpkg}"
+echo "Image docker Unitex              = ${docker_compiled_image}"
+echo "Image docker Unitex+Linguistique = ${docker_runnable_image}"
+echo "Paquet linguistique              = ${lngpkg}"
+echo "Version du paquet linguistique   = ${LNG_VERSION}"
 echo "------------------------------"
 echo ""
 
@@ -54,15 +58,12 @@ builddir=$(dirname $0)/builddir
 
 [ -d $builddir ] || mkdir $builddir
 
+sed -e "s;@DOCKER_COMPILED_IMAGE@;${docker_compiled_image};" Dockerfile.tmpl > Dockerfile
+
 rm -rf $builddir/*
 
-cp $unitexdir/libUnitexJni.so $builddir
-cp $unitexdir/RunUnitexDynLib $builddir
-cp $unitexdir/showversion.sh $builddir
-cp unitex.sh $builddir
-chmod u+x $builddir/unitex.sh
-chmod u+x $builddir/showversion.sh
 cp $lngpkg $builddir
 echo $LNG_VERSION > "$builddir/lng_version"
+cp unitex.sh $builddir
 
-docker build -t unitex --rm=true .
+docker build -t $docker_runnable_image --rm=true .

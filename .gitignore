@@ -2,3 +2,6 @@
 .vagrant
 tmp
 unitex/build/builddir
+unitex/build/Dockerfile
+unitex/compile/builddir
+unitex/compile/Dockerfile
