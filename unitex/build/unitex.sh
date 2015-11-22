@@ -58,7 +58,8 @@ echo "=================================="
 echo "Commande: $CMD"
 showversion.sh
 echo "Version du package linguistique: " $(cat $cmdpath/lng_version)
-echo gcc -v 2>&1|tail -1
+echo "Version de GCC: " $(cat $cmdpath/gcc_version)
+grep VERSION= /etc/os-release
 echo "**********************************"
 echo "Date d'execution debut: " $(date)
 echo "**********************************"
