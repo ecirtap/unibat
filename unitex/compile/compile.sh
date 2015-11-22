@@ -19,3 +19,7 @@ cp libUnitexJni.so ../
 cp RunUnitexDynLib ../
 cp showversion.sh ../
 
+
+# Plus la peine de garder ces packages; on va faire maigrir l'image resultante
+apt-get purge -qqy openjdk-7-jre openjdk-7-jdk subversion g++ valgrind make expect 
+apt-get autoremove -qqy
