@@ -60,7 +60,7 @@ if [ -z ${https_proxy+x} ] ; then
 else
   hs_proxy="ENV https_proxy ${https_proxy}"
 fi
-set -x
+
 sed -e "s/@UBUNTU_VERSION@/$ubuntu_version/" \
     -e "s;@HTTP_PROXY@;$h_proxy;" \
     -e "s;@HTTPS_PROXY@;$hs_proxy;" \
