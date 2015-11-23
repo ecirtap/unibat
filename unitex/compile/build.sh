@@ -22,15 +22,15 @@ while getopts 'u:z:r:' flag; do
 done
 
 if [ "$ubuntu_version" = "" ] ; then
-  die "Version d'ubuntu non specifiee"
+  die "Version d'ubuntu non specifiee (option -u)"
 fi
 
 if [ "$unitex_revision" = "" ] ; then
-  die "Version d'unitex non specifiee"
+  die "Version d'unitex non specifiee (option -r)"
 fi
 
 if [ "$rebuild_unitex_zip" = "" ] ; then
-  die "Le zip nécessaire à la compilation d'unitex n'est pas specifie"
+  die "Le zip nécessaire à la compilation d'unitex n'est pas specifie (option -z)"
 fi
 
 if [ ! -f "$rebuild_unitex_zip" ] ; then
@@ -49,7 +49,21 @@ cp $rebuild_unitex_zip $builddir
 cp compile.sh $builddir
 cp svninfo.expect $builddir
 
+if [ -z ${http_proxy+x} ] ; then
+  h_proxy=""
+else
+  h_proxy="ENV http_proxy ${http_proxy}"
+fi
+
+if [ -z ${https_proxy+x} ] ; then
+  hs_proxy=""
+else
+  hs_proxy="ENV https_proxy ${https_proxy}"
+fi
+set -x
 sed -e "s/@UBUNTU_VERSION@/$ubuntu_version/" \
+    -e "s;@HTTP_PROXY@;$h_proxy;" \
+    -e "s;@HTTPS_PROXY@;$hs_proxy;" \
     Dockerfile.tmpl > Dockerfile
 
 compiler_image_name="unitex/compiler:${ubuntu_version}"
