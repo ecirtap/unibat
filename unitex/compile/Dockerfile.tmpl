@@ -6,6 +6,9 @@ ENV REFRESHED_AT 2015-02-12
 @HTTP_PROXY@
 @HTTPS_PROXY@
 
+@HTTP_PROXY_HOST@
+@HTTP_PROXY_PORT@
+
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -sf /bin/true /sbin/initctl
 

@@ -50,20 +50,26 @@ cp compile.sh $builddir
 cp svninfo.expect $builddir
 
 if [ -z ${http_proxy+x} ] ; then
-  h_proxy=""
+  host_http_proxy=""
+  port_http_proxy=""
+  url_http_proxy=""
 else
-  h_proxy="ENV http_proxy ${http_proxy}"
+  url_http_proxy="ENV http_proxy ${http_proxy}"
+  host_http_proxy=$(perl -MURI -e "print 'ENV HTTP_PROXY_HOST ',URI->new('$http_proxy')->host")
+  port_http_proxy=$(perl -MURI -e "print 'ENV HTTP_PROXY_PORT ',URI->new('$http_proxy')->port")
 fi
 
 if [ -z ${https_proxy+x} ] ; then
-  hs_proxy=""
+  url_https_proxy=""
 else
-  hs_proxy="ENV https_proxy ${https_proxy}"
+  url_https_proxy="ENV https_proxy ${https_proxy}"
 fi
 
 sed -e "s/@UBUNTU_VERSION@/$ubuntu_version/" \
-    -e "s;@HTTP_PROXY@;$h_proxy;" \
-    -e "s;@HTTPS_PROXY@;$hs_proxy;" \
+    -e "s;@HTTP_PROXY@;$url_http_proxy;" \
+    -e "s;@HTTPS_PROXY@;$url_https_proxy;" \
+    -e "s;@HTTP_PROXY_HOST@;$host_http_proxy;" \
+    -e "s;@HTTP_PROXY_PORT@;$port_http_proxy;" \
     Dockerfile.tmpl > Dockerfile
 
 compiler_image_name="unitex/compiler:${ubuntu_version}"

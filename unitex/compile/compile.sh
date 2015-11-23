@@ -9,6 +9,16 @@ cd $cmdpath
 # On laisse un marqueur pour gcc pour ne pas oublier (il est supprimé en fin de compilation)
 gcc --version|head -1 > gcc_version
 
+# Traitement du Proxy éventuel pour SVN
+if [ ! -z ${HTTP_PROXY_HOST} ] ; then
+  [ ! -d $HOME/.subversion ] && mkdir $HOME/.subversion
+  cat << HERE > $HOME/.subversion/servers
+[global]
+http-proxy-host = $HTTP_PROXY_HOST
+http-proxy-port = $HTTP_PROXY_PORT
+HERE
+fi
+
 # Récupere le certificat https autosigné de la forge 
 ./svninfo.expect
 

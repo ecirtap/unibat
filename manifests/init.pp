@@ -41,7 +41,7 @@ node 'unitex.fqdn.org' {
 
   # Installation des paquets nécessaires sur le host Docker
   # NB: c'est Vagrant qui installe Docker (cf provisionning dans Vagrantfile)
-  package { ['unzip','curl','htop','p7zip-full']: 
+  package { ['unzip','curl','htop','p7zip-full','liburi-perl']: 
     ensure => present, 
     require => Exec['set-timezone']
   }
