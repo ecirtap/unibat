@@ -41,27 +41,8 @@ node 'unitex.fqdn.org' {
 
   # Installation des paquets nécessaires sur le host Docker
   # NB: c'est Vagrant qui installe Docker (cf provisionning dans Vagrantfile)
-  package { ['unzip','curl','htop']: 
+  package { ['unzip','curl','htop','p7zip-full']: 
     ensure => present, 
     require => Exec['set-timezone']
   }
-
-  # Installation des paquets nécessaires sur le host Docker pour recompiler unitex
-  # NB: c'est Vagrant qui installe Docker (cf provisionning dans Vagrantfile)
-  package { ['g++','subversion','p7zip-full','valgrind','openjdk-7-jdk','make']: 
-    ensure => present, 
-    require => Exec['set-timezone']
-  }
-
-  $c='/home/vagrant/corpus'
-  File { owner => 'vagrant', group => 'vagrant', mode => '0777' }
-  file { "${c}": ensure => directory }
-  file { "${c}/in": ensure => directory, require => File[$c] }
-  file { "${c}/out": ensure => directory, require => File[$c] }
-  file { "${c}/out/fr": ensure => directory, require => File["${c}/out"] }
-  file { "${c}/out/fr/tei": ensure => directory, require => File["${c}/out/fr"] }
-  file { "${c}/out/fr/xml": ensure => directory, require => File["${c}/out/fr"] }
-  file { "${c}/out/en": ensure => directory, require => File["${c}/out"] }
-  file { "${c}/out/en/tei": ensure => directory, require => File["${c}/out/en"] }
-  file { "${c}/out/en/xml": ensure => directory, require => File["${c}/out/en"] }
 }
