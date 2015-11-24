@@ -45,4 +45,12 @@ node 'unitex.fqdn.org' {
     ensure => present, 
     require => Exec['set-timezone']
   }
+
+  # Script de lancement d'un unitex dockérisé
+  file { '/home/vagrant/unitex.sh':
+    source  => 'puppet:///modules/files/unitex.sh',
+    owner   => 'vagrant',
+    group   => 'vagrant',
+    mode    => '0755'
+  }
 }

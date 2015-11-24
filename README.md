@@ -37,3 +37,5 @@ Testé avec Vagrant 1.7.2+, VBox 4.3+, Docker 1.9.[01].
     vagrant@unitex% ./build.sh -i unitex/compiled:15.04_4152 -l /vagrant/tmp/PackageCassys/2015_11_17/PackageCassys.lingpkg
 
 ## Lancement d'un conteneur Unitex
+
+    vagrant@unitex% ./unitex.sh -t 15.04_4152_20151117 -d $HOME/evaluation -c Corpus_fre_eval2015-10 -n 15 -f tei -l FR
