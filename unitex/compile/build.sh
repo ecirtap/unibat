@@ -6,14 +6,16 @@ function die() {
   echo $1; exit 1 
 }
 
+image_name='ubuntu'
 ubuntu_version=''
 unitex_revision=''
 rebuild_unitex_zip=''
 
 cmdpath=$(dirname $0)
 
-while getopts 'u:z:r:' flag; do
+while getopts 'u:z:r:i:' flag; do
   case "${flag}" in
+    i) image_name="${OPTARG}" ;;
     u) ubuntu_version="${OPTARG}" ;;
     r) unitex_revision="${OPTARG}" ;;
     z) rebuild_unitex_zip="${OPTARG}" ;;
@@ -66,6 +68,7 @@ else
 fi
 
 sed -e "s/@UBUNTU_VERSION@/$ubuntu_version/" \
+    -e "s;@IMAGE_NAME@;$image_name;" \
     -e "s;@HTTP_PROXY@;$url_http_proxy;" \
     -e "s;@HTTPS_PROXY@;$url_https_proxy;" \
     -e "s;@HTTP_PROXY_HOST@;$host_http_proxy;" \
