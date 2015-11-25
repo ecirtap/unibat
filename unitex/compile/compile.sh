@@ -10,7 +10,7 @@ cd $cmdpath
 gcc --version|head -1 > gcc_version
 
 # Traitement du Proxy éventuel pour SVN
-if [ ${HTTP_PROXY_HOST:-} != '' ] ; then
+if [ "${HTTP_PROXY_HOST:-}" != '' ] ; then
   [ ! -d $HOME/.subversion ] && mkdir $HOME/.subversion
   cat << HERE > $HOME/.subversion/servers
 [global]
