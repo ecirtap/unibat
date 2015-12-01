@@ -58,10 +58,3 @@ rm -rf "${directory}/${corpus_out}"
 mkdir -p "${directory}/${corpus_out}"
 
 docker run -v $directory:/corpus $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
-
-dirname=$(basename $directory)
-parentdir=$(dirname $directory)
-
-cd $parentdir
-
-tar czf "${corpus}_unitex_${docker_runnable_tag}.tgz" "${dirname}/${corpus_out}" "${dirname}/${outfile}"
