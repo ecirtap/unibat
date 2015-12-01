@@ -26,7 +26,10 @@ mkdir $UNITEX_REVISION
 cd $UNITEX_REVISION
 # Construction d'Unitex
 unzip ../script_rebuild_unitex.zip
-./mkUnitexLib.sh $UNITEX_REVISION
+
+if [ -f mkUnitexLib.sh ] ; then
+	./mkUnitexLib.sh $UNITEX_REVISION
+fi
 # Copie le resultat dans le repertoire d'execution
 cp libUnitexJni.so ../
 cp RunUnitexDynLib ../
