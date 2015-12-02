@@ -10,15 +10,17 @@ image_name='ubuntu'
 ubuntu_version=''
 unitex_revision=''
 rebuild_unitex_zip=''
+label=''
 
 cmdpath=$(dirname $0)
 
-while getopts 'u:z:r:i:' flag; do
+while getopts 'u:z:r:i:l:' flag; do
   case "${flag}" in
     i) image_name="${OPTARG}" ;;
     u) ubuntu_version="${OPTARG}" ;;
     r) unitex_revision="${OPTARG}" ;;
     z) rebuild_unitex_zip="${OPTARG}" ;;
+    l) label="${OPTARG}" ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
@@ -76,7 +78,12 @@ sed -e "s/@UBUNTU_VERSION@/$ubuntu_version/" \
     Dockerfile.tmpl > Dockerfile
 
 compiler_image_name="unitex/compiler:${ubuntu_version}"
-compiled_image_name="unitex/compiled:${ubuntu_version}_${unitex_revision}"
+
+if [ "${label}" != "" ] ; then
+  compiled_image_name="unitex/compiled:${ubuntu_version}_${unitex_revision}_${label}"
+else
+  compiled_image_name="unitex/compiled:${ubuntu_version}_${unitex_revision}"
+fi
 
 # On construit l'image si elle n'existe pas
 iid=$(docker images -q $compiler_image_name)
