@@ -57,4 +57,4 @@ corpus_out="${corpus}.out"
 rm -rf "${directory}/${corpus_out}"
 mkdir -p "${directory}/${corpus_out}"
 
-docker run -v $directory:/corpus $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
+docker run --rm -v $directory:/corpus $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
