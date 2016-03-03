@@ -34,7 +34,7 @@ if [ ! -f "${lngpkg}" ] ; then
   die "Le package linguistique fourni en paramètre n'est pas valide."
 fi
 
-LNG_VERSION=$(zipinfo -1 $lngpkg |grep resource/VERSION|sed -e s';resource/VERSION_;;')
+LNG_VERSION=$(zipinfo -1 "$lngpkg" |grep resource/VERSION|sed -e s';resource/VERSION_;;')
 # TODO: test de validite sur le LNG_VERSION
 
 docker_runnable_image=$(echo "${docker_compiled_image}_${LNG_VERSION}"|sed -e 's/compiled/runnable/')
