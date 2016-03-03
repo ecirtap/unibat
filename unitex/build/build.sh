@@ -62,7 +62,7 @@ sed -e "s;@DOCKER_COMPILED_IMAGE@;${docker_compiled_image};" Dockerfile.tmpl > D
 
 rm -rf $builddir/*
 
-cp $lngpkg $builddir
+cp "$lngpkg" $builddir
 echo $LNG_VERSION > "$builddir/lng_version"
 cp unitex.sh $builddir
 
