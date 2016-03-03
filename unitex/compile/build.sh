@@ -49,7 +49,7 @@ builddir="$cmdpath/builddir"
 [ -d $builddir ] || mkdir $builddir
 rm -rf $builddir/*
 
-cp $rebuild_unitex_zip $builddir/script_rebuild_unitex.zip
+cp "$rebuild_unitex_zip" $builddir/script_rebuild_unitex.zip
 cp compile.sh $builddir
 cp svninfo.expect $builddir
 
