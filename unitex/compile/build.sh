@@ -104,6 +104,7 @@ if [ "$iid" = "" ] ; then
   cid=$(cat $cidfile)
   rm $cidfile
   docker export $cid | docker import --change='CMD ["bash"]' --change='WORKDIR /soft' - $compiled_image_name 
+  docker rm $cid
 else
   echo "L'image ${compiled_image_name} existe déjà"
 fi
