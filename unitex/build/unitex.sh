@@ -6,27 +6,34 @@ lng=''
 nthread=2
 fmt=''
 indir=''
-optm='-m'
+debug='m'
 outdir=''
 
 cmdpath=$(dirname $0)
 
 export PATH=$cmdpath:$PATH
 
-while getopts 'l:t:f:i:o:vd' flag; do
+while getopts 'l:t:f:i:o:vd:' flag; do
   case "${flag}" in
     l) lng="${OPTARG}" ;;
     f) fmt="${OPTARG}" ;;
     t) nthread="${OPTARG}" ;;
     i) indir="${OPTARG}" ;;
     o) outdir="${OPTARG}" ;;
-    d) optm='' ;;
+    d) debug="${OPTARG}" ;;
     v) showversion.sh; exit $? ;;
     *) echo "option inconnue ${flag}"; exit 1 ;;
   esac
 done
 
 lngpkg='./PackageCassys.lingpkg'
+
+optdebug=''
+case "${debug}" in
+  m) optdebug='-m';;
+  f) optdebug='-f';;
+  *) echo "option de debug inconnue ${debug}"; exit 1 ;;
+esac
 
 case "${lng}" in
   FR|fr|fra|f) lng='fra';;
@@ -52,7 +59,7 @@ cd $cmdpath
 script="script/${lng}_${fmt}.uniscript"
 
 export LD_LIBRARY_PATH=$cmdpath
-CMD="RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p $optm -s $script }"
+CMD="RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p $optdebug -s $script }"
 
 echo "=================================="
 echo "Commande: $CMD"
