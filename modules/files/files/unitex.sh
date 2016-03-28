@@ -67,7 +67,7 @@ nbin=$(ls "${directory}/${corpus}"|wc)
 nbout=$(ls "${directory}/${corpus_out}"|wc)
 
 if [ $nbin -eq $nbout ] ; then
-  touch "${directory}/${kofile}"
-else
   touch "${directory}/${okfile}"
+else
+  touch "${directory}/${kofile}"
 fi
