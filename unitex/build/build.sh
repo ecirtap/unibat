@@ -44,6 +44,9 @@ if [ "$iid" != "" ] ; then
   die "L'image ${docker_runnable_image} existe deja"
 fi
 
+host_uid=$(id -u)
+host_gid=$(id -g)
+
 echo "------------------------------"
 echo "Construction de l'image Docker"
 echo "------------------------------"
@@ -58,7 +61,9 @@ builddir=$(dirname $0)/builddir
 
 [ -d $builddir ] || mkdir $builddir
 
-sed -e "s;@DOCKER_COMPILED_IMAGE@;${docker_compiled_image};" Dockerfile.tmpl > Dockerfile
+sed -e "s;@DOCKER_COMPILED_IMAGE@;${docker_compiled_image};" \
+    -e "s;@HOST_UID@;$host_uid;" \
+    -e "s;@HOST_GID@;$host_gid;" Dockerfile.tmpl > Dockerfile
 
 rm -rf $builddir/*
 

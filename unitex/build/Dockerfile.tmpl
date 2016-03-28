@@ -7,8 +7,12 @@ ENV REFRESHED_AT 2015-02-12
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -sf /bin/true /sbin/initctl
 
+RUN groupadd -g @HOST_UID@ unitex && useradd -u @HOST_GID@ -g unitex unitex
+
 ADD builddir /soft
 
 WORKDIR /soft
+
+USER unitex
 
 ENTRYPOINT ["/soft/unitex.sh"]
