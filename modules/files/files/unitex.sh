@@ -50,11 +50,24 @@ fi
 shift "$((OPTIND - 2))"
 
 outfile="${corpus}.log"
+okfile="${corpus}.ok"
+kofile="${corpus}.ko"
 outpath="${directory}/${outfile}"
 
 corpus_out="${corpus}.out"
 
 rm -rf "${directory}/${corpus_out}"
+rm -f "${directory}/${okfile}"
+rm -f "${directory}/${kofile}"
 mkdir -p "${directory}/${corpus_out}"
 
-docker run --rm -v $directory:/corpus $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
+docker run --rm -v "$directory/:/corpus" $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
+
+nbin=$(ls "${directory}/${corpus}"|wc)
+nbout=$(ls "${directory}/${corpus_out}"|wc)
+
+if [ $nbin -eq $nbout ] ; then
+  touch "${directory}/${kofile}"
+else
+  touch "${directory}/${okfile}"
+fi
