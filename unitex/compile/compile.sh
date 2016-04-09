@@ -20,12 +20,16 @@ HERE
 fi
 
 # Récupere le certificat https autosigné de la forge 
-./svninfo.expect
+#./svninfo.expect
 
 mkdir $UNITEX_REVISION
 cd $UNITEX_REVISION
 # Construction d'Unitex
 unzip ../script_rebuild_unitex.zip
+
+# Pour l'instant (8/4/2016)  on récupère le script de construction d'unitex par svn/git indépendemment du zip
+
+cp ../mkUnitexLib_svn_gh.sh mkUnitexLib.sh
 
 if [ -f mkUnitexLib.sh ] ; then
 	./mkUnitexLib.sh $UNITEX_REVISION
