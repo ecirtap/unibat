@@ -61,7 +61,7 @@ rm -f "${directory}/${okfile}"
 rm -f "${directory}/${kofile}"
 mkdir -p "${directory}/${corpus_out}"
 
-docker run --rm -v "$directory/:/corpus" $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
+docker run --net none --rm -v "$directory/:/corpus" $docker_runnable_image -t $nthreads -i /corpus/$corpus -o /corpus/$corpus_out $@ > $outpath 2>&1
 
 nbin=$(ls "${directory}/${corpus}"|wc -l)
 nbout=$(ls "${directory}/${corpus_out}"|wc -l)
