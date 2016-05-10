@@ -2,9 +2,7 @@
 
 set -u
 
-lng=''
 nthread=2
-fmt=''
 indir=''
 debug='m'
 outdir=''
@@ -13,10 +11,9 @@ cmdpath=$(dirname $0)
 
 export PATH=$cmdpath:$PATH
 
-while getopts 'l:t:f:i:o:vd:' flag; do
+while getopts 's:t:i:o:vd:' flag; do
   case "${flag}" in
-    l) lng="${OPTARG}" ;;
-    f) fmt="${OPTARG}" ;;
+    s) sname="${OPTARG}" ;;
     t) nthread="${OPTARG}" ;;
     i) indir="${OPTARG}" ;;
     o) outdir="${OPTARG}" ;;
@@ -35,17 +32,6 @@ case "${debug}" in
   *) echo "option de debug inconnue ${debug}"; exit 1 ;;
 esac
 
-case "${lng}" in
-  FR|fr|fra|f) lng='fra';;
-  EN|en|eng|e) lng='eng';;
-  *) echo "langue inconnue ${lng}"; exit 1 ;;
-esac
-
-case "${fmt}" in
-  tei|xml) ;; 
-  *) echo "format inconnu ${fmt}"; exit 1 ;;
-esac
-
 if [ ! -d $indir ] ; then
   echo "Repertoire d'entree inexistant: $indir"; exit 1
 fi
@@ -56,7 +42,11 @@ fi
 
 cd $cmdpath
 
-script="script/${lng}_${fmt}.uniscript"
+if [ "$sname" = "" ] ; then
+  echo "le script n'est pas specifie"; exit 1
+fi
+
+script="script/$sname"
 
 export LD_LIBRARY_PATH=$cmdpath
 CMD="RunUnitexDynLib { BatchRunScript -o $outdir -i $indir -t $nthread $lngpkg -v -p $optdebug -s $script }"
