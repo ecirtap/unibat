@@ -103,7 +103,7 @@ if [ "$iid" = "" ] ; then
   docker run --cidfile=$cidfile -e UNITEX_REVISION=$UNITEX_REVISION $compiler_image_name ./compile.sh
   cid=$(cat $cidfile)
   rm $cidfile
-  docker export $cid | docker import --change='CMD [bash]' --change='WORKDIR /soft' - $compiled_image_name 
+  docker export $cid | docker import --change='CMD /bin/bash' --change='WORKDIR /soft' - $compiled_image_name
   docker rm $cid
 else
   echo "L'image ${compiled_image_name} existe déjà"
