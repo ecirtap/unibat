@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -u
+set -ue
 
 cmdpath=$(dirname $0)
 
@@ -25,7 +25,8 @@ cd $UNITEX_REVISION
 unzip ../script_rebuild_unitex.zip
 
 if [ -f mkUnitexLib_svn_gh.sh ] ; then
-	./mkUnitexLib_svn_gh.sh $UNITEX_REVISION
+  chmod u+x mkUnitexLib_svn_gh.sh
+  ./mkUnitexLib_svn_gh.sh $UNITEX_REVISION
 fi
 # Copie le resultat dans le repertoire d'execution
 cp libUnitexJni.so ../
@@ -33,5 +34,5 @@ cp RunUnitexDynLib ../
 cp showversion.sh ../
 
 # Plus la peine de garder ces packages; on va faire maigrir plus tard l'image Docker resultante
-apt-get purge -qqy openjdk-7-jre openjdk-7-jdk subversion g++ valgrind make expect 
+apt-get purge -qqy openjdk-${JAVA_VERSION}-jdk-headless subversion g++-8 valgrind make expect
 apt-get autoremove -qqy

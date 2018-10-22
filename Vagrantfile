@@ -1,11 +1,13 @@
-# VM d'accueil une Ubuntu
+
+$script = <<-SCRIPT
+if ! command -v puppet ; then
+  apt update && apt install -qqy puppet
+fi
+SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define 'unitex' do |box|
-    # Le necessaire pour Docker est disponible de base en Ubuntu 14.04
-    box.vm.box = 'trusty-server-cloudimg-amd64-vagrant-disk1'
-    # Canonical fournit des box Vagrant ready
-    box.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
+    box.vm.box = 'ubuntu/bionic64'
     box.vm.hostname = 'unitex.fqdn.org'
     box.vm.network 'private_network', ip: '192.168.168.24'
     box.vm.provider :virtualbox do |vb|
@@ -13,6 +15,8 @@ Vagrant.configure("2") do |config|
       vb.customize ['modifyvm', :id, '--memory', '2048']
       vb.customize ['modifyvm', :id, '--cpus', '2']
     end
+    box.vm.provision "shell",
+      inline: $script
     box.vm.provision :puppet do |puppet|
       puppet.manifests_path = 'manifests'
       puppet.module_path = 'modules'

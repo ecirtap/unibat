@@ -1,7 +1,8 @@
 .DS_Store
-.vagrant
-tmp
-unitex/build/builddir
-unitex/build/Dockerfile
-unitex/compile/builddir
-unitex/compile/Dockerfile
+/.vagrant
+/tmp
+/unitex/build/builddir
+/unitex/build/Dockerfile
+/unitex/compile/builddir
+/unitex/compile/Dockerfile
+/*.log

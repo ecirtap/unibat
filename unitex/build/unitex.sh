@@ -6,6 +6,7 @@ nthread=2
 indir=''
 debug='m'
 outdir=''
+sname=''
 
 cmdpath=$(dirname $0)
 

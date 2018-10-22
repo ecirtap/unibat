@@ -12,12 +12,14 @@ ENV REFRESHED_AT 2015-02-12
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -sf /bin/true /sbin/initctl
 
-RUN apt-get -qqy update && apt-get install openjdk-7-jre g++ subversion p7zip-full openjdk-7-jdk valgrind make expect unzip -qqy
+ENV JAVA_VERSION=8
+
+RUN apt-get -qqy update && apt-get install locales g++-8 subversion p7zip-full openjdk-${JAVA_VERSION}-jdk-headless valgrind make expect unzip -qqy
 
 # Set locale to UTF8 
 RUN locale-gen --no-purge fr_FR.UTF-8 
 RUN update-locale LANG=fr_FR.UTF-8 
-RUN dpkg-reconfigure locales 
+RUN dpkg-reconfigure --frontend=noninteractive locales
 ENV LANGUAGE fr_FR.UTF-8 
 ENV LANG fr_FR.UTF-8 
 ENV LC_ALL fr_FR.UTF-8
@@ -25,5 +27,7 @@ ENV LC_ALL fr_FR.UTF-8
 RUN mkdir /soft
 
 ADD builddir /soft
+
+RUN ln -s /usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64 /usr/lib/jvm/default-java
 
 WORKDIR /soft
