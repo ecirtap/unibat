@@ -34,5 +34,5 @@ cp RunUnitexDynLib ../
 cp showversion.sh ../
 
 # Plus la peine de garder ces packages; on va faire maigrir plus tard l'image Docker resultante
-apt-get purge -qqy openjdk-${JAVA_VERSION}-jdk-headless subversion g++-8 valgrind make expect
+apt-get purge -qqy openjdk-${JAVA_VERSION}-jdk-headless subversion g++-${GCC_VERSION} valgrind make expect
 apt-get autoremove -qqy
