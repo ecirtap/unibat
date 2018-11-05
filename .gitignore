@@ -1,4 +1,5 @@
 .DS_Store
+.*.swp
 /.vagrant
 /tmp
 /unitex/build/builddir
