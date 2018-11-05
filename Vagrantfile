@@ -9,7 +9,6 @@ Vagrant.configure("2") do |config|
   config.vm.define 'unitex' do |box|
     box.vm.box = 'ubuntu/bionic64'
     box.vm.hostname = 'unitex.fqdn.org'
-    box.vm.network 'private_network', ip: '192.168.168.24'
     box.vm.provider :virtualbox do |vb|
       vb.customize ['guestproperty', 'set', :id, '/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold', 10000 ]
       vb.customize ['modifyvm', :id, '--memory', '2048']
