@@ -1,3 +1,5 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
 $script = <<-SCRIPT
 if ! command -v puppet ; then

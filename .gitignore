@@ -6,4 +6,4 @@
 /unitex/build/Dockerfile
 /unitex/compile/builddir
 /unitex/compile/Dockerfile
-/*.log
+*-cloudimg-console.log
