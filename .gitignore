@@ -1,7 +1,6 @@
 .DS_Store
 .*.swp
 /.vagrant
-/tmp
 /unitex/build/builddir
 /unitex/build/Dockerfile
 /unitex/compile/builddir

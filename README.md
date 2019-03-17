@@ -24,7 +24,6 @@ Il faut installer Vagrant et VirtualBox sur son poste de travail pour utiliser c
 
     host% git clone https://github.com/ecirtap/unibat.git
     host% cd unibat
-    host% mkdir tmp
     host% vagrant up
 
 ## Prérequis
