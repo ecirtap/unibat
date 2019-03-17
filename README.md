@@ -41,4 +41,5 @@ Il faut installer Vagrant et VirtualBox sur son poste de travail pour utiliser c
 
 ## Lancement d'un conteneur Unitex
 
+    vagrant@unitex% cd
     vagrant@unitex% ./unitex.sh -t 18.04_2915_20181106 -d $HOME/evaluation -c Corpus_fre_eval2015-10 -n 15 -s eng_tei.uniscript
